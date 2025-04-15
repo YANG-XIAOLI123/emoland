@@ -1,52 +1,43 @@
-let columns = 10;
-let rows = 10;
+//  PARAMETRI
+let parti = 100; // 将画面分为几部分
+let parola = "EMOLAND"; // 要显示的文本内容
 
-//
-
+// ASSET
 let font;
 
 function preload() {
-  font = loadFont("./assets/InputMonoCondensed-Light.ttf");
+  font = loadFont("./assets/OLDENGL.TTF");
 }
 
-//
+// CODICE
 
 function setup() {
-  createCanvas(windowWidth, windowHeight, "webgl");
-  angleMode(DEGREES);
-
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  // WEBGL激活3d效果，是一个在网页中绘制 3D 图形和 2D 图形 的技术
   textFont(font);
-  textSize(height / 10);
+  fill("blue");
+  textAlign(CENTER);
+  let h_parti = height / parti;
+  textSize(h_parti);
 }
-
-//
 
 function draw() {
-  background("blue");
-  orbitControl();
+  background("black");
 
-  let angle = 360 / columns;
-  let diameter = textSize();
+  orbitControl(); //它使你可以通过 鼠标拖动来自由地旋转观察 3D 场景.和滚轮拖动
+  let h_parti = height / parti;
+  //rect(0, 0, width, h_parti);
+  translate(0, -height / 2);
 
-  fill("white");
-
-  rotateY(-frameCount);
-  for (let i = 0; i < columns; i++) {
+  for (let i = 0; i < parti; i++) {
     push();
-    rotateY(angle * i);
-    translate(diameter, 0, 0);
-    for (let j = 0; j < rows; j++) {
-      const a = cos(frameCount * 5 + j * 20);
-      const m = map(a, -1, 1, 0, textSize());
-      push();
-      translate(m, textSize() * (j - rows / 2), 0);
-      text("Ciao", 0, 0);
-      pop();
-    }
+    let z = map(cos(frameCount / 100 + i * 1), -1, 1, -100, 100);
+    let x = map(cos(frameCount / 100 + i * 1), -1, 1, -200, 200);
+    let y = map(cos(frameCount / 100 + i * 1), -1, 1, -300, 300);
+    translate(x, y, z);
+    let y_parte = i * h_parti;
+    let y_parola = y_parte + h_parti - textDescent(); //textDecent 是文字基线以下的高度
+    text(parola, 0, y_parola);
     pop();
   }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
 }
