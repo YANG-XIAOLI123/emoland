@@ -11,6 +11,8 @@ function preload() {
 
 // CODICE
 
+let cam;
+
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
   // WEBGL激活3d效果，是一个在网页中绘制 3D 图形和 2D 图形 的技术
@@ -19,6 +21,10 @@ function setup() {
   textAlign(CENTER);
   let h_parti = height / parti;
   textSize(h_parti);
+
+  cam = createCamera();
+  cam.setPosition(800, 0, 800);
+  cam.lookAt(0, 0, 0);
 }
 
 function draw() {
